@@ -1,0 +1,8 @@
+.DS_Store
+.venv/
+.ruff_cache/
+**/__pycache__/
+old/
+sync_to_runpod.py
+nfl-big-data-bowl-2026-prediction/**
+trace_output/
