@@ -66,18 +66,27 @@ This solution uses a modified version of Temporal Huber Loss:
 Let $y_{\text{pred}} \in {\mathbb{R}}^{P \times 55 \times 2}$ be the model predictions, $y_{\text{true}} \in {\mathbb{R}}^{P \times 55 \times 2}$ be the ground truth, and $M \in {\mathbb{R}}^{P \times 55}$ be a binary mask. 
 
 Define: 
+
 $$
 L = |y_{\text{true}} - y_{\text{pred}}| \in {\mathbb{R}}^{P \times 55 \times 2}
 $$
+
 $$h_{\delta}(x) = 
 \begin{cases}
 0.5x^2 & x \leq \delta \\
 \delta(x - 0.5\delta) & \text{otherwise}
 \end{cases}
 $$
-$$w_{\lambda}(t) = \exp(-t \lambda)$$
 
-Then $$\text{Loss} = \frac{\displaystyle \sum_{p=0}^{P-1} \sum_{t=0}^{54} \sum_{i=0}^{1} M_{p, t}\cdot w_{\lambda}(t)\cdot h_{\delta}(L_{p, t, i})}{\displaystyle 2\sum_{p=0}^{P-1} \sum_{t=0}^{54} M_{p, t} \cdot w_{\lambda}(t)}$$
+$$
+w_{\lambda}(t) = \exp(-t \lambda)
+$$
+
+Then 
+
+$$
+\text{Loss} = \frac{\displaystyle \sum_{p=0}^{P-1} \sum_{t=0}^{54} \sum_{i=0}^{1} M_{p, t}\cdot w_{\lambda}(t)\cdot h_{\delta}(L_{p, t, i})}{\displaystyle 2\sum_{p=0}^{P-1} \sum_{t=0}^{54} M_{p, t} \cdot w_{\lambda}(t)}
+$$
 
 
 This was inspired by [Pankaj Gupta's Notebook](https://www.kaggle.com/code/pankajiitr/nfl-big-data-bowl-2026-geometry-gnn), which applied temporal weights to both the loss and mask tensors, therefore multiplying the numerator by `weight ** 2` (instead of `weight`):
