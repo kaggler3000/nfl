@@ -116,12 +116,21 @@ A post-competition rerun of the same code scored **0.53083 on the private leader
 |    1 | 0.5668 | 0.5319 | 0.5606 | 0.5688 | 0.5756 |
 | Average | **0.5608** | | | | |
 
+Training was conducted on a remote server:
+- Python 3.12.3
+- Ubuntu 24.04
+- PyTorch CUDA 13.0
+- GPU: NVIDIA RTX Pro 6000
+- CPU: 28 vCPUs (AMD EPYC 9534)
+
+Exact Python package versions are recorded in `requirements-lock.txt`.
+
 ## Run it
 ### Model Training
-First, install the necessary packages:
+Choose one of the following installation commands for the required Python packages:
 ```bash
-pip install -r requirements.txt
-pip install -r requirements-lock.txt # either works
+pip install -r requirements.txt # Install project dependencies
+pip install -r requirements-lock.txt # Recreate the remote training environment
 ```
 
 Next, download the official data from the [competition page](https://www.kaggle.com/competitions/nfl-big-data-bowl-2026-prediction/data). Preprocess the data by running: 
