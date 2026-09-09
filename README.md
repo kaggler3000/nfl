@@ -1,8 +1,8 @@
 # 2026 NFL Big Data Bowl Silver Medal Solution Writeup
 
-This repository contains my Silver Medal winning solution for the [NFL Big Data Bowl 2026 Prediction competition](https://www.kaggle.com/competitions/nfl-big-data-bowl-2026-prediction). The task is to forecast player movement while a forward pass is in the air, using pre-throw NFL tracking data.
+This repository contains my Silver Medal winning solution for the [2026 NFL Big Data Bowl Challenge](https://www.kaggle.com/competitions/nfl-big-data-bowl-2026-prediction). The task is to forecast player movement while a forward pass is in the air, using pre-throw NFL tracking data.
 
-The solution combines physics-inspired feature engineering with a two-stage transformer that models each player's recent movement and the interactions between players on the field.
+The solution combines physics-inspired feature engineering with a two-stage transformer that models each player's movements and their interactions on the field.
 
 ## Approach
 
@@ -89,7 +89,7 @@ $$
 $$
 
 
-This was inspired by [Pankaj Gupta's Notebook](https://www.kaggle.com/code/pankajiitr/nfl-big-data-bowl-2026-geometry-gnn), which applied temporal weights to both the loss and mask tensors, therefore multiplying the numerator by `weight ** 2` (instead of `weight`):
+This was inspired by [Pankaj Gupta's Notebook](https://www.kaggle.com/code/pankajiitr/nfl-big-data-bowl-2026-geometry-gnn), which applied temporal weights to both the loss and mask tensors, therefore multiplying the numerator by `weight ** 2`:
 ```python
 if self.time_decay > 0:
     L = pred.size(1)
@@ -100,7 +100,7 @@ if self.time_decay > 0:
 
 return (huber * mask).sum() / (mask.sum() + 1e-8)
 ```
-My implementation applies the temporal weight once and normalizes by the total weighted mask.
+My implementation instead applies the temporal weight only once (multiplying by `weight`) and normalizes by the total weighted mask.
 
 ### Cross Validation and Experimental Results
 
@@ -121,8 +121,8 @@ A post-competition rerun of the same code scored **0.53083 on the private leader
 First, install the necessary packages:
 ```bash
 pip install -r requirements.txt
+pip install -r requirements-lock.txt # either works
 ```
-(It's best to do this inside of a virtual environment). 
 
 Next, download the official data from the [competition page](https://www.kaggle.com/competitions/nfl-big-data-bowl-2026-prediction/data). Preprocess the data by running: 
 ```bash
@@ -144,7 +144,7 @@ flowchart LR
     C --> D[Notebook sets up server]
     D --> E[Submit Notebook]
 ```
-Run `upload_to_kaggle.py` from `scripts/`. This uses `kagglehub` to automatically upload your timestamped directories to Kaggle: 
+Run `upload_to_kaggle.py` from `scripts/`. This uses `kagglehub` to automatically upload your timestamped model checkpoints and code to private Kaggle datasets under your account: 
 ```bash
 python upload_to_kaggle.py --timestamp TIMESTAMP --username USERNAME
 ```
@@ -153,7 +153,7 @@ python upload_to_kaggle.py --timestamp TIMESTAMP --username USERNAME
 **Note:** you'll need to have an access token for Kaggle in order to run this code. 
 The script will prompt you to create some directories and upload the necessary files. 
 
-Next, open a new Kaggle notebook in your account and import the `NFLPostCompetitionSubmissions.ipynb` file under `notebooks/`. Make sure the Kaggle datasets created by `upload_to_kaggle.py` are accessible to the notebook, and submit. 
+Next, open a new Kaggle notebook in your account and import the `NFLPostCompetitionSubmissions.ipynb` file under `notebooks/`. Make sure the Kaggle datasets created by `upload_to_kaggle.py` are accessible to the notebook. Submit the Kaggle notebook to the competition. 
 
 ## License
 MIT
