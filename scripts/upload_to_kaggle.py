@@ -74,13 +74,13 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--train-data-dir",
-        type=str,
+        type=Path,
         help="Folder to which preprocessed data should be saved.",
         default=get_persistent_directory() / ".nfl-silver-solution" / "generated_data",
     )
     parser.add_argument(
         "--output-dir",
-        type=str,
+        type=Path,
         help="Path to folder containing training artifacts",
         default=get_persistent_directory()
         / ".nfl-silver-solution"
